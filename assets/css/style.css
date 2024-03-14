@@ -11,8 +11,14 @@ header {
     text-align: center; /* Centers the text horizontally */
 }
 
+h2{
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 15px 22px 0px;
+    color: #333;
+}
 
-body, h2, h3 {
+body, h3 {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -21,21 +27,27 @@ body, h2, h3 {
 
 /* Search section styling */
 #search-section {
-    
     padding: 20px;
     color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    width: 100%; /* Ensures full width */
+    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+}
+#search-container {
+    margin-bottom: 20px;
+    display: flex; /* Using flexbox for layout */
+    flex-direction: column; /* Stacks the children vertically */
 }
 
 #search-input {
+    width: 28%;
     padding: 10px;
-    width: 70%;
-    margin-right: 10px;
+    margin-bottom: 10px; /* Spacing between the input and the button */
+    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
 }
 
 #search-button {
     padding: 10px;
-    width: 20%;
+    width: 28%;
     background-color: #007bff;
     color: white;
     border: none;
