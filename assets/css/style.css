@@ -1,0 +1,86 @@
+/* Container and general styling */
+.container {
+    max-width: 960px;
+    margin: auto;
+}
+
+header {
+    background-color: #2424b4; /* Blue background color */
+    color: white; /* White text color */
+    padding: 10px 0; /* Padding to ensure the text doesn't touch the edges */
+    text-align: center; /* Centers the text horizontally */
+}
+
+
+body, h2, h3 {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Search section styling */
+#search-section {
+    
+    padding: 20px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+#search-input {
+    padding: 10px;
+    width: 70%;
+    margin-right: 10px;
+}
+
+#search-button {
+    padding: 10px;
+    width: 20%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#search-history {
+    
+    padding: 15px;
+    margin-top: 20px;
+    /* Later, add styles for history buttons inside this div */
+}
+
+/* Weather info section */
+#weather-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Current weather styling */
+#current-weather {
+    flex-basis: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    /* More styles will be added here for current weather content */
+}
+
+/* Forecast styling */
+#forecast {
+    flex-basis: 100%;
+    margin-top: 20px;
+}
+
+#forecast-container {
+    display: flex;
+    justify-content: space-between;
+    /* Styles for forecast cards will be added here */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    #forecast-container {
+        flex-direction: column;
+    }
+}
