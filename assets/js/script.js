@@ -1,4 +1,6 @@
 function saveToHistory(cityName) {
+        // Capitalize the city name
+        cityName = cityName.charAt(0).toUpperCase() + cityName.slice(1).toLowerCase();
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(cityName)) {
         history.push(cityName);
