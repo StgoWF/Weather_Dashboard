@@ -16,7 +16,7 @@ h2{
     margin: auto;
     padding: 15px 22px 0px;
     color: #333;
-    margin-top: 114px;
+
 }
 
 body, h3 {
@@ -68,6 +68,11 @@ body, h3 {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
+}
+
+.weather-icon {
+    width: 100px; /* Tamaño deseado en píxeles */
+    height: auto; /* Mantener la proporción de aspecto */
 }
 
 /* Current weather styling */
