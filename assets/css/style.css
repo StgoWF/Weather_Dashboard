@@ -90,9 +90,20 @@ body, h3 {
     /* Styles for forecast cards will be added here */
 }
 
+/* Forecast card styling */
+.forecast-card {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 10px; /* Spacing inside the cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2); /* Shadow effect for depth */
+    width: 18%; /* Width for each card to fit 5 in a row */
+    margin-bottom: 10px; /* Spacing between the cards vertically */
+    text-align: center; /* Center the text inside the card */
+}
+
 /* Media query for smaller screens */
 @media (max-width: 768px) {
     #forecast-container {
         flex-direction: column;
     }
 }
+

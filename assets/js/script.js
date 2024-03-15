@@ -31,43 +31,143 @@ function getCoordinates(cityName) {    // Construct the URL for the Geocoding AP
 }
 
 
-// Function to fetch weather data from OpenWeatherMap using latitude and longitude
 function getWeatherData(lat, lon) {
-    const weatherApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fd7f618ea9fd25705c72652935c36154`;// Build the URL for the weather forecast API request using the coordinates
+    const weatherApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fd7f618ea9fd25705c72652935c36154`;
 
-
-    fetch(weatherApiUrl) // Fetch the weather data using the built URL
-
+    fetch(weatherApiUrl)
         .then(response => {
-            if (!response.ok) {    // Handle the response, checking if the request was successful
-
+            if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
-            console.log(data);// Log the received data to the console or proceed to display it in the UI
-            
+            console.log(data); // Log the entire weather data object to inspect its structure
+            if (data && data.list && data.list.length > 0) {
+                displayCurrentWeather(data.list[0]); // Display current weather from the first entry in the list
+                displayForecast(data.list); // Display weather forecast using the list array
+            } else {
+                console.error('Weather data format is incorrect.');
+            }
         })
-        .catch(e => {
-            console.log('Error: ' + e.message);// Catch and log any errors in the fetch operation
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
         });
 }
 
+
+
 // Function to display current weather details
 function displayCurrentWeather(weatherData) {
-    console.log(weatherData);
-    const currentWeatherSection = document.getElementById('current-weather-section');
-    currentWeatherSection.innerHTML = ''; // Clear previous content
+    // Verify if weatherData is defined and contains the necessary properties
+    if (weatherData && weatherData.main && weatherData.wind) {
+        console.log(weatherData); // Log the weather data to the console (optional)
 
-    // Create elements for weather details - you can expand this with more details
-    const temperatureElement = document.createElement('p');
-    temperatureElement.textContent = `Temperature: ${weatherData.temp} °C`;
+        // Extract temperature, wind speed, and humidity from weatherData
+        const temperature = Math.round(weatherData.main.temp - 273.15); // Convert from Kelvin to Celsius
+        const windSpeed = weatherData.wind.speed;
+        const humidity = weatherData.main.humidity;
 
-    // Append new elements to the current weather section
-    currentWeatherSection.appendChild(temperatureElement);
+        // Get the current weather section element by its ID
+        const currentWeatherSection = document.getElementById('current-weather-section');
+        currentWeatherSection.innerHTML = ''; // Clear previous content
 
-    // ... (add more detailed weather information as needed)
+        // Create elements to display current weather details
+        const temperatureElement = document.createElement('p');
+        temperatureElement.textContent = `Temperature: ${temperature} °C`;
+
+        const windSpeedElement = document.createElement('p');
+        windSpeedElement.textContent = `Wind Speed: ${windSpeed} m/s`;
+
+        const humidityElement = document.createElement('p');
+        humidityElement.textContent = `Humidity: ${humidity}%`;
+
+        // Append new elements to the current weather section
+        currentWeatherSection.appendChild(temperatureElement);
+        currentWeatherSection.appendChild(windSpeedElement);
+        currentWeatherSection.appendChild(humidityElement);
+    } else {
+        // If weatherData is not defined or does not contain the necessary properties, log an error
+        console.error('Main weather information is missing in the weather data.');
+    }
+}
+
+
+
+
+// Function to display weather forecast, ensuring one forecast per day
+function displayForecast(forecastData) {
+    const forecastContainer = document.getElementById('forecast-section');
+    forecastContainer.innerHTML = ''; // Clear any existing forecast content
+
+    // Filter the forecast data to get one entry per day, ideally around midday
+    const filteredForecast = forecastData.filter((item, index) => index % 8 === 0).slice(0, 5);
+
+    filteredForecast.forEach((forecastItem) => {
+        const forecastDate = new Date(forecastItem.dt * 1000);
+        const dateFormatOptions = { day: 'numeric', month: 'numeric', year: 'numeric' };
+        const date = new Intl.DateTimeFormat('en-US', dateFormatOptions).format(forecastDate);
+        
+        const temperature = Math.round(forecastItem.main.temp - 273.15); // Convert from Kelvin to Celsius
+        const windSpeed = forecastItem.wind.speed;
+        const humidity = forecastItem.main.humidity;
+        
+        const forecastItemElement = document.createElement('div');
+        forecastItemElement.classList.add('forecast-item');
+
+        forecastItemElement.innerHTML = `
+            <p>Date: ${date}</p>
+            <p>Temperature: ${temperature} °C</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>
+            <p>Humidity: ${humidity}%</p>`;
+
+        forecastContainer.appendChild(forecastItemElement);
+    });
+}
+
+
+
+
+// Function to save the searched city to the search history
+function saveToHistory(cityName) {
+    // Get the current search history from localStorage or initialize an empty array
+    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+    // Check if the cityName is already in the history to avoid duplicates
+    if (!history.includes(cityName)) {
+        // If cityName is not in the history, add it to the array
+        history.push(cityName);
+        
+        // Save the updated history back to localStorage
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+    }
+    
+    // Load and display the updated search history
+    loadSearchHistory();
+}
+
+// Function to load and display the search history from localStorage
+function loadSearchHistory() {
+    // Retrieve the search history array from localStorage or initialize an empty array
+    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    
+    // Get the container element for displaying the search history
+    const historyContainer = document.getElementById('search-history');
+    
+    // Clear any existing content in the history container
+    historyContainer.innerHTML = '';
+
+    // Loop through each city in the search history array
+    history.forEach(cityName => {
+        // Create a new list item element
+        const listItem = document.createElement('li');
+        
+        // Set the text content of the list item to the cityName
+        listItem.textContent = cityName;
+        
+        // Append the list item to the history container
+        historyContainer.appendChild(listItem);
+    });
 }
 
 
