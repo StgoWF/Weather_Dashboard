@@ -71,8 +71,8 @@ body, h3 {
 }
 
 .weather-icon {
-    width: 100px; /* Tamaño deseado en píxeles */
-    height: auto; /* Mantener la proporción de aspecto */
+    width: 100px; 
+    height: auto; 
 }
 
 /* Current weather styling */
@@ -136,10 +136,42 @@ body, h3 {
     align-items: center;
 }
 
+
+
 /* Media query for smaller screens */
 @media (max-width: 768px) {
-    #forecast-container {
-        flex-direction: column;
+    /* Adjust container width for smaller screens */
+    .container {
+        max-width: 100%; /* Full width for smaller screens */
+    }
+
+    /* Adjust search input and button */
+    #search-input {
+        width: 100%; /* Full width for smaller screens */
+        margin-bottom: 10px; /* Maintain spacing */
+    }
+
+    #search-button {
+        width: 100%; /* Full width for smaller screens */
+    }
+
+    /* Adjust forecast section */
+    #forecast-section {
+        flex-direction: column; /* Stack forecast items vertically on smaller screens */
+    }
+
+    /* Adjust forecast card width for smaller screens */
+    .forecast-card {
+        width: 100%; /* Full width for smaller screens */
+    }
+
+    /* Adjust forecast item */
+    .forecast-item {
+        flex-basis: 100%; /* Full width for smaller screens */
+    }
+
+    /* Adjust current weather section */
+    #current-weather-section {
+        width: 100%; /* Full width for smaller screens */
     }
 }
-
