@@ -1,0 +1,84 @@
+/* Main layout styling */
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Search section styling */
+.search-area {
+    flex-basis: 30%; /* Takes up 30% of the container's width */
+    margin-right: 2%; /* Adds some margin between the search area and the weather info */
+}
+
+/* Weather info section */
+.weather-info {
+    flex-basis: 68%; /* Takes up the remaining width minus the margin */
+}
+
+/* Current weather styling */
+#current-weather-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    text-align: center; /* Centers the text inside the current weather section */
+    margin-bottom: 20px;
+}
+
+/* Forecast section styling */
+#forecast-section {
+    flex-basis: 100%; /* Takes up full width */
+    display: flex; /* Use flexbox to lay out forecast items in a row */
+    flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+    justify-content: space-between; /* Space out forecast items evenly */
+    align-items: stretch; /* Align items in a way that they take equal height */
+    padding: 20px 0; /* Padding top and bottom */
+}
+
+/* Forecast card styling */
+.forecast-card {
+    background-color: #1e2125; /* Dark background for the card */
+    color: white; /* White text color */
+    padding: 10px; /* Spacing inside the cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2); /* Shadow effect for depth */
+    width: 18%; /* Width for each card to fit 5 in a row */
+    margin: 10px 1%; /* Margin around the cards */
+    text-align: center; /* Center the text inside the card */
+}
+
+/* Adjust the search input and button width for the new layout */
+#search-input,
+#search-button {
+    width: 100%; /* Full width within the search area */
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .search-area,
+    .weather-info {
+        flex-basis: 100%; /* Each section takes full width on small screens */
+        margin: 0 0 20px; /* Adds margin to the bottom */
+    }
+
+    #forecast-section {
+        justify-content: center; /* Center forecast cards on smaller screens */
+    }
+
+    .forecast-card {
+        width: 48%; /* Adjust the width to fit 2 cards per row on smaller screens */
+        margin: 10px 1%; /* Adjust margin for spacing */
+    }
+}
+
+@media (max-width: 480px) {
+    .forecast-card {
+        width: 98%; /* Adjust the width to fit 1 card per row on very small screens */
+    }
+}

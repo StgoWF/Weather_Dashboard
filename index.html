@@ -10,8 +10,9 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main>
-        <!-- Search Section -->
+    <main class="container">
+        <div id="search-weather-container"
+                <!-- Search Section -->
         <h2>Search for a City:</h2>
         <section id="search-section">
             <div id="search-container">
@@ -26,9 +27,12 @@
         
         <!-- Current Weather Section -->
         <section id="current-weather-section">
-            <!-- Content will be dynamically added by JavaScript -->
+            <!-- Esta caja contendrá la información del clima actual -->
+            <div class="weather-card" id="current-weather">
+                <!-- El contenido se añadirá dinámicamente con JavaScript -->
+            </div>
         </section>
-        
+
         <!-- 5-Day Forecast Section -->
         <section id="forecast-section">
             <div id="forecast-container"></div>

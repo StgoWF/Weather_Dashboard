@@ -5,7 +5,7 @@
 }
 
 header {
-    background-color: #2424b4; /* Blue background color */
+    background-color: #5f97ce;; /* Blue background color */
     color: white; /* White text color */
     padding: 10px 0; /* Padding to ensure the text doesn't touch the edges */
     text-align: center; /* Centers the text horizontally */
@@ -13,9 +13,10 @@ header {
 
 h2{
     font-family: 'Arial', sans-serif;
-    margin: 0;
+    margin: auto;
     padding: 15px 22px 0px;
     color: #333;
+    margin-top: 114px;
 }
 
 body, h3 {
@@ -39,7 +40,7 @@ body, h3 {
 }
 
 #search-input {
-    width: 28%;
+    
     padding: 10px;
     margin-bottom: 10px; /* Spacing between the input and the button */
     box-sizing: border-box; /* Ensures padding doesn't affect overall width */
@@ -47,8 +48,8 @@ body, h3 {
 
 #search-button {
     padding: 10px;
-    width: 28%;
-    background-color: #007bff;
+    
+    background-color: #5f97ce;;
     color: white;
     border: none;
     cursor: pointer;
@@ -72,17 +73,36 @@ body, h3 {
 /* Current weather styling */
 #current-weather {
     flex-basis: 100%;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
     /* More styles will be added here for current weather content */
 }
 
-/* Forecast styling */
-#forecast {
-    flex-basis: 100%;
-    margin-top: 20px;
+/* Current Weather Card Styling */
+#current-weather-section {
+    padding: 20px; /* Consistent padding with forecast cards */
+    margin-bottom: 20px; /* Margin for spacing below the card */
+    width: calc(20% * 5); /* Same total width as 5 forecast cards, adjust if necessary */
+    text-align: center;
+   
 }
+
+.weather-card-with-data {
+    background-color: #5f97ce;;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    text-align: center; /* Centers the text inside the current weather section */
+    margin-bottom: 20px;
+}
+
+
+#forecast-section {
+    display: flex; /* Use flexbox to lay out forecast items in a row */
+    justify-content: space-between; /* Space out forecast items evenly */
+    align-items: stretch; /* Align items in a way that they take equal height */
+    padding: 20px 0; /* Padding top and bottom */
+}
+
 
 #forecast-container {
     display: flex;
@@ -98,6 +118,17 @@ body, h3 {
     width: 18%; /* Width for each card to fit 5 in a row */
     margin-bottom: 10px; /* Spacing between the cards vertically */
     text-align: center; /* Center the text inside the card */
+}
+
+.forecast-item {
+    flex-basis: 18%; /* Allows 5 items per row */
+    background-color: #5f97ce;;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Media query for smaller screens */

@@ -56,42 +56,70 @@ function getWeatherData(lat, lon) {
 }
 
 
-
 // Function to display current weather details
 function displayCurrentWeather(weatherData) {
     // Verify if weatherData is defined and contains the necessary properties
-    if (weatherData && weatherData.main && weatherData.wind) {
-        console.log(weatherData); // Log the weather data to the console (optional)
+    if (weatherData && weatherData.main && weatherData.wind && weatherData.weather) {
+        // Log the weather data to the console for debugging
+        console.log(weatherData);
+
+        // Create a new Date object and format it to a readable string
+        const currentDate = new Date();
+        const dateFormatOptions = { weekday: 'long', month: 'long', day: 'numeric' };
+        const formattedDate = new Intl.DateTimeFormat('en-US', dateFormatOptions).format(currentDate);
 
         // Extract temperature, wind speed, and humidity from weatherData
         const temperature = Math.round(weatherData.main.temp - 273.15); // Convert from Kelvin to Celsius
         const windSpeed = weatherData.wind.speed;
         const humidity = weatherData.main.humidity;
 
-        // Get the current weather section element by its ID
+        // Get the current weather section element by its ID and clear previous content
         const currentWeatherSection = document.getElementById('current-weather-section');
-        currentWeatherSection.innerHTML = ''; // Clear previous content
+        currentWeatherSection.innerHTML = '';
 
-        // Create elements to display current weather details
+        // Create and style the paragraph element for the current date
+        const dateElement = document.createElement('p');
+        dateElement.textContent = formattedDate;
+        dateElement.innerHTML = `<strong>${formattedDate}</strong>`;
+
+        dateElement.style.color = 'white';
+        currentWeatherSection.appendChild(dateElement);
+
+        // Get the weather icon code from weatherData
+        const iconCode = weatherData.weather[0].icon;
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+
+        // Create and append the weather icon image
+        const weatherIcon = document.createElement('img');
+        weatherIcon.src = iconUrl;
+        weatherIcon.alt = weatherData.weather[0].description;
+        currentWeatherSection.appendChild(weatherIcon);
+
+        // Create and style elements to display the weather details in bold and white
         const temperatureElement = document.createElement('p');
-        temperatureElement.textContent = `Temperature: ${temperature} °C`;
+        temperatureElement.innerHTML = `<strong>Temperature:</strong> ${temperature} °C`;
+        temperatureElement.style.color = 'white';
 
         const windSpeedElement = document.createElement('p');
-        windSpeedElement.textContent = `Wind Speed: ${windSpeed} m/s`;
+        windSpeedElement.innerHTML = `<strong>Wind Speed:</strong> ${windSpeed} m/s`;
+        windSpeedElement.style.color = 'white';
 
         const humidityElement = document.createElement('p');
-        humidityElement.textContent = `Humidity: ${humidity}%`;
+        humidityElement.innerHTML = `<strong>Humidity:</strong> ${humidity}%`;
+        humidityElement.style.color = 'white';
 
-        // Append new elements to the current weather section
+        // Append the new elements to the current weather section
         currentWeatherSection.appendChild(temperatureElement);
         currentWeatherSection.appendChild(windSpeedElement);
         currentWeatherSection.appendChild(humidityElement);
+
+        // Optionally, add a class to style the card when data is present
+        currentWeatherSection.classList.add('weather-card-with-data');
     } else {
-        // If weatherData is not defined or does not contain the necessary properties, log an error
+        // Log an error if the necessary weather information is missing
         console.error('Main weather information is missing in the weather data.');
     }
 }
-
 
 
 
@@ -100,27 +128,51 @@ function displayForecast(forecastData) {
     const forecastContainer = document.getElementById('forecast-section');
     forecastContainer.innerHTML = ''; // Clear any existing forecast content
 
+    // Create and append the 5-Day Forecast title
+    const forecastTitle = document.createElement('h2');
+    forecastTitle.textContent = '5-Day Forecast:';
+    forecastContainer.appendChild(forecastTitle);
+
     // Filter the forecast data to get one entry per day, ideally around midday
     const filteredForecast = forecastData.filter((item, index) => index % 8 === 0).slice(0, 5);
 
+    // Iterate over each filtered forecast data item
     filteredForecast.forEach((forecastItem) => {
         const forecastDate = new Date(forecastItem.dt * 1000);
-        const dateFormatOptions = { day: 'numeric', month: 'numeric', year: 'numeric' };
+        const dateFormatOptions = { weekday: 'long', month: 'numeric', day: 'numeric' };
         const date = new Intl.DateTimeFormat('en-US', dateFormatOptions).format(forecastDate);
         
         const temperature = Math.round(forecastItem.main.temp - 273.15); // Convert from Kelvin to Celsius
         const windSpeed = forecastItem.wind.speed;
         const humidity = forecastItem.main.humidity;
-        
+
+        // Get weather icon code from the forecastItem
+        const iconCode = forecastItem.weather[0].icon;
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+
+        // Create an img element for the weather icon
+        const weatherIcon = document.createElement('img');
+        weatherIcon.src = iconUrl;
+        weatherIcon.alt = forecastItem.weather[0].description;
+        weatherIcon.classList.add('weather-icon'); // Ensure you have CSS for this class to control size, etc.
+
+        // Create a container for this forecast item
         const forecastItemElement = document.createElement('div');
         forecastItemElement.classList.add('forecast-item');
 
-        forecastItemElement.innerHTML = `
-            <p>Date: ${date}</p>
-            <p>Temperature: ${temperature} °C</p>
-            <p>Wind Speed: ${windSpeed} m/s</p>
-            <p>Humidity: ${humidity}%</p>`;
-
+        // Build the inner HTML for the forecast item with bold and white text
+        const innerHTMLContent = `
+            <p class="forecast-date" style="color: white;"><strong>${date}</strong></p>
+            <div class="weather-icon-container">
+                <img src="${iconUrl}" alt="${forecastItem.weather[0].description}" class="weather-icon">
+            </div>
+            <p style="color: white;"><strong>Temp:</strong> ${temperature} °C</p>
+            <p style="color: white;"><strong>Wind:</strong> ${windSpeed} m/s</p>
+            <p style="color: white;"><strong>Humidity:</strong> ${humidity}%</p>
+        `;
+        forecastItemElement.innerHTML = innerHTMLContent;
+        
+        // Append the forecast item element to the forecast container
         forecastContainer.appendChild(forecastItemElement);
     });
 }
@@ -128,47 +180,7 @@ function displayForecast(forecastData) {
 
 
 
-// Function to save the searched city to the search history
-function saveToHistory(cityName) {
-    // Get the current search history from localStorage or initialize an empty array
-    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-    // Check if the cityName is already in the history to avoid duplicates
-    if (!history.includes(cityName)) {
-        // If cityName is not in the history, add it to the array
-        history.push(cityName);
-        
-        // Save the updated history back to localStorage
-        localStorage.setItem('searchHistory', JSON.stringify(history));
-    }
-    
-    // Load and display the updated search history
-    loadSearchHistory();
-}
-
-// Function to load and display the search history from localStorage
-function loadSearchHistory() {
-    // Retrieve the search history array from localStorage or initialize an empty array
-    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    
-    // Get the container element for displaying the search history
-    const historyContainer = document.getElementById('search-history');
-    
-    // Clear any existing content in the history container
-    historyContainer.innerHTML = '';
-
-    // Loop through each city in the search history array
-    history.forEach(cityName => {
-        // Create a new list item element
-        const listItem = document.createElement('li');
-        
-        // Set the text content of the list item to the cityName
-        listItem.textContent = cityName;
-        
-        // Append the list item to the history container
-        historyContainer.appendChild(listItem);
-    });
-}
 
 
 // Event listener for the search button
